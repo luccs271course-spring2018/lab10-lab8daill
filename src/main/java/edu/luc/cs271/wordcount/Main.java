@@ -1,6 +1,7 @@
 package edu.luc.cs271.wordcount;
 
 import java.util.*;
+import java.io.File;
 
 public class Main {
 
@@ -8,7 +9,22 @@ public class Main {
 
     // set up the scanner so that it separates words based on space and punctuation
     final Scanner input = new Scanner(System.in).useDelimiter("[^\\p{Alnum}]+");
-
+    WordCounter wordC = new WordCounter(new HashMap<String, Integer>());
+    ArrayList<String> list = new ArrayList<String>();
+    while(input.hasNext()){
+      list.add(input.next());
+    }
+    Iterator<String> iList = list.iterator();
+    wordC.countWords(iList);
+    ArrayList<Map.Entry<String, Integer>> sortedList = new ArrayList<Map.Entry<String, Integer>>(wordC.getCounts().size());
+    Iterator<Map.Entry<String, Integer>> Imap = wordC.getCounts().entrySet().iterator();
+    while(Imap.hasNext()){
+      sortedList.add(Imap.next());
+    }
+    Collections.sort(sortedList, new DescendingByCount());
+    for(int i = 0; i < 10; i++){
+      System.out.println(sortedList.get(i).getKey());
+    }
     // TODO complete this main program
     // 1. create a WordCounter instance
     // 2. use this to count the words in the input
